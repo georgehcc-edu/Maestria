@@ -1,0 +1,384 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Laboratorio de criterios</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500..700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#07163A; --bg2:#0B2152; --surface:#0F2762; --surface2:#143273; --line:#2B4A94;
+  --fg:#F4F7FF; --muted:#AEBEE3; --gold:#D9B56B; --gold2:#F0D79A; --cyan:#5CCBFF; --red:#D9303E;
+  --on-gold:#1B1405;
+  --popper:#FF8F8F; --kuhn:#C9A6FF; --lakatos:#6FE0B5; --bunge:#5CCBFF; --piaget:#F6A56B;
+  --serif:'Cinzel',Georgia,serif; --sans:'Public Sans',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px;
+  background-image:radial-gradient(ellipse at 85% 0%,rgba(92,203,255,.14),transparent 55%),radial-gradient(ellipse at 0% 20%,rgba(217,181,107,.10),transparent 50%)}
+.wrap{max-width:900px;margin-inline:auto;display:flex;flex-direction:column;gap:22px}
+.brand{position:relative;padding-block:26px 18px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+.brand::after{content:"";position:absolute;left:0;bottom:-1px;width:30%;height:3px;background:linear-gradient(90deg,var(--red),var(--gold))}
+.net{position:absolute;right:0;top:10px;width:150px;height:90px;opacity:.9;pointer-events:none}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600;max-width:calc(100% - 120px)}
+h1{font-family:var(--serif);font-size:clamp(28px,6vw,42px);line-height:1.12;margin:0;font-weight:700;text-wrap:balance}
+h1 span{color:var(--gold)}
+h2{font-family:var(--serif);font-size:clamp(20px,4vw,27px);line-height:1.25;margin:0;font-weight:700;text-wrap:balance}
+h3{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0;font-weight:700}
+p{margin:0}
+.sub{color:var(--muted);max-width:64ch}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-weight:600;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--fg);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.panel{display:flex;flex-direction:column;gap:20px}
+.card{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.note{background:rgba(92,203,255,.09);border-left:4px solid var(--cyan);border-radius:8px;padding:14px 16px;font-size:15px}
+.note.gold{background:rgba(217,181,107,.10);border-left-color:var(--gold)}
+.btn{font:inherit;font-weight:700;padding:12px 22px;border-radius:10px;border:0;background:var(--gold);color:var(--on-gold);cursor:pointer}
+.btn.cyan{background:var(--cyan);color:#04223A}
+.btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.opt:focus-visible,.tab:focus-visible,.pill:focus-visible,.pick:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.steps{display:flex;gap:8px;flex-wrap:wrap}
+.stp{flex:1 1 130px;font-size:13px;font-weight:600;padding:8px 10px;border-radius:8px;border:1px solid var(--line);color:var(--muted);display:flex;gap:8px;align-items:center}
+.stp i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1.5px solid currentColor;font-size:12px;flex:none}
+.stp.on{color:var(--on-gold);background:var(--gold);border-color:var(--gold)}
+.stp.done{color:var(--cyan);border-color:var(--cyan)}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold));transition:width .25s}
+.tag{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(217,181,107,.15);color:var(--gold2);width:fit-content}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.mini{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.mini b.n{font-family:var(--serif);font-size:26px;color:var(--gold)}
+.mini strong{font-size:16px}
+.mini span{color:var(--muted);font-size:14.5px}
+.scenario{font-size:18px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{font:inherit;text-align:left;background:rgba(255,255,255,.04);color:var(--fg);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+.opt:hover{border-color:var(--gold)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:rgba(217,181,107,.14);box-shadow:inset 0 0 0 1px var(--gold)}
+.opt b{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-size:13px;color:var(--muted)}
+.opt[aria-pressed="true"] b{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
+.opt span{min-width:0}
+.pause{border:1px dashed var(--cyan);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;background:rgba(92,203,255,.06)}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font:inherit;font-size:14px;font-weight:600;padding:7px 12px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--fg);cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan);color:#04223A}
+textarea,input[type=text]{font:inherit;width:100%;background:rgba(0,0,0,.25);color:var(--fg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
+textarea:focus,input[type=text]:focus{outline:2px solid var(--cyan);border-color:var(--cyan)}
+label.l{font-size:14px;color:var(--muted);display:block;margin-bottom:6px}
+.hero{border:2px solid var(--gold);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;background:linear-gradient(135deg,rgba(217,181,107,.14),rgba(92,203,255,.06))}
+.hero .big{font-family:var(--serif);font-size:clamp(24px,5vw,32px);font-weight:700}
+.two{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:center}
+.two svg{width:100%;height:auto;max-width:300px;margin-inline:auto}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.bars{display:flex;flex-direction:column;gap:12px}
+.bar{display:grid;grid-template-columns:96px 1fr 34px;gap:10px;align-items:center}
+.bar .t{height:14px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:99px}
+.bar .n{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.bar .l{font-weight:700}
+.chip{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:99px;border:1.5px solid currentColor;white-space:nowrap}
+details.rv{border-top:1px solid var(--line);padding-block:10px}
+details.rv summary{cursor:pointer;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-weight:600}
+details.rv .in{display:flex;flex-direction:column;gap:10px;padding-top:12px;color:var(--fg)}
+.alt{display:flex;gap:10px;align-items:flex-start;font-size:15px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.04)}
+.alt.me{background:rgba(217,181,107,.14);outline:1px solid var(--gold)}
+.alt .chip{flex:none}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pick{font:inherit;text-align:left;cursor:pointer;background:rgba(255,255,255,.04);color:var(--fg);border:1.5px solid var(--line);border-top-width:5px;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.pick[aria-selected="true"]{box-shadow:0 0 0 2px var(--gold2);background:rgba(255,255,255,.09)}
+.pick small{color:var(--muted)}
+.ficha dl{margin:0;display:grid;grid-template-columns:1fr;gap:14px}
+.ficha dt{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.ficha dd{margin:2px 0 0}
+.q{font-family:var(--serif);font-size:19px;font-weight:600;border-left:5px solid var(--c,var(--gold));padding-left:14px}
+.radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.radios label{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:14.5px}
+.radios input{margin-top:3px;accent-color:#D9B56B}
+.status{font-size:14.5px;min-height:1.4em;color:var(--gold2)}
+footer{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:480px){.bar{grid-template-columns:80px 1fr 28px}.card{padding:16px}.net{display:none}.eyebrow{max-width:100%}}
+</style>
+
+<div class="wrap">
+<header class="brand">
+  <svg class="net" viewBox="0 0 150 90" aria-hidden="true"><g stroke="#5CCBFF" stroke-opacity=".55" stroke-width="1" fill="none"><path d="M10 70 L45 40 L80 55 L115 20 L140 45"/><path d="M45 40 L60 10 L115 20"/><path d="M80 55 L105 80 L140 45"/></g><g fill="#5CCBFF"><circle cx="10" cy="70" r="3"/><circle cx="45" cy="40" r="4"/><circle cx="80" cy="55" r="3"/><circle cx="115" cy="20" r="4"/><circle cx="140" cy="45" r="3"/><circle cx="60" cy="10" r="2.5"/><circle cx="105" cy="80" r="2.5"/></g></svg>
+  <p class="eyebrow">Teoría y Epistemología de la Información · UJAP · Sesión 5 · Unidad II</p>
+  <h1>Laboratorio de <span>criterios</span></h1>
+  <p class="sub">Del dato al conocimiento: descubre con qué criterio decides qué es válido y ponle nombre con cinco corrientes del siglo XX.</p>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Secciones">
+  <button class="tab" role="tab" id="t-lab" aria-selected="true" onclick="show('lab')">Laboratorio</button>
+  <button class="tab" role="tab" id="t-fic" aria-selected="false" onclick="show('fic')">Fichas de las cinco corrientes</button>
+</nav>
+
+<section id="lab" class="panel"></section>
+<section id="fic" class="panel" hidden></section>
+
+<footer>
+  <p><b>Espejo didáctico, no un test psicológico.</b> No mide quién eres: muestra qué criterio usaste en estas cinco situaciones, que puede cambiar según el contexto.</p>
+  <p><b>Privacidad:</b> esta página no guarda ni envía lo que escribes. Si descargas tu espejo, el archivo se crea en tu navegador y lo guardas tú. Al cerrar o reiniciar, lo no descargado desaparece.</p>
+  <p>Fichas elaboradas como apoyo docente a partir de las obras señaladas en cada una. Material formativo, sin calificación.</p>
+</footer>
+</div>
+
+<script>
+var HEX={popper:'#FF8F8F',kuhn:'#C9A6FF',lakatos:'#6FE0B5',bunge:'#5CCBFF',piaget:'#F6A56B'};
+var C={
+ popper:{n:'Popper',k:'popper',pregunta:'¿Qué lo refutaría?',larga:'¿Qué evidencia podría mostrar que esta afirmación es falsa?'},
+ kuhn:{n:'Kuhn',k:'kuhn',pregunta:'¿Qué anomalías se acumulan?',larga:'¿Qué anomalías se acumulan y cuándo el marco vigente deja de ofrecer respuestas satisfactorias?'},
+ lakatos:{n:'Lakatos',k:'lakatos',pregunta:'¿Progresa o solo se ajusta?',larga:'¿Los ajustes de una teoría permiten anticipar nuevos resultados o solo explican los fracasos?'},
+ bunge:{n:'Bunge',k:'bunge',pregunta:'¿Cómo lo contrasto con rigor?',larga:'¿Cómo podemos contrastar esta afirmación con evidencia y un procedimiento riguroso?'},
+ piaget:{n:'Piaget',k:'piaget',pregunta:'¿Asimilo o acomodo?',larga:'¿Estoy incorporando la nueva información a mis esquemas actuales o necesito transformar mis esquemas?'}
+};
+var KEYS=['popper','kuhn','lakatos','bunge','piaget'];
+var S=[
+{ctx:'Organizacional',t:'Tu dashboard de BI muestra que la fuga de clientes bajó 12 % después de lanzar una campaña. La gerencia quiere declarar que la campaña funcionó. ¿Cómo validas esa afirmación?',
+ o:[
+ ['popper','Busco qué datos mostrarían que la campaña NO fue la causa (otros meses sin campaña, cambios de precio, estacionalidad) y trato de refutarla antes de aceptarla.'],
+ ['kuhn','Reviso si el modo en que medimos la fuga todavía sirve. Si varios casos no encajan en ese marco, el problema puede ser la forma de medir, no la campaña.'],
+ ['lakatos','Mantengo la hipótesis central (la campaña funciona) y ajusto los supuestos auxiliares (segmentos, ventanas de tiempo), mientras sigan anticipando resultados nuevos.'],
+ ['bunge','Diseño un contraste: un grupo con campaña y otro sin ella, con muestra e indicadores definidos antes de mirar los resultados.'],
+ ['piaget','Incorporo el dato a lo que ya sé del cliente. Si no cuadra con mi idea, reorganizo mi modelo mental y pregunto qué ve el equipo comercial en terreno.']]},
+{ctx:'Organizacional',t:'Una herramienta de IA generativa resume un informe regulatorio extenso y sugiere una decisión de cumplimiento. Tienes que firmarla. ¿Qué criterio usas para confiar o no?',
+ o:[
+ ['popper','Le pido las condiciones en que su resumen sería falso y busco en el informe el pasaje que lo contradiga.'],
+ ['kuhn','Me pregunto si razona dentro del mismo marco normativo que usa mi organización. Si hay casos que ese marco no resuelve, quizá hay que cambiar la forma de trabajar.'],
+ ['lakatos','Miro su trayectoria: ¿ha anticipado bien casos nuevos o solo explica después lo que ya ocurrió? Si solo explica a posteriori, deja de merecer confianza.'],
+ ['bunge','Verifico contra la fuente primaria, cito el artículo exacto y exijo que otra persona pueda repetir el procedimiento y llegar a lo mismo.'],
+ ['piaget','Lo uso, comparo con lo que ya sabía y voy ajustando cuánto confío según aprendo de sus aciertos y errores.']]},
+{ctx:'Organizacional',t:'Tu área lleva tres años con una metodología de trabajo que dio buenos resultados. En los últimos trimestres aparecen fallos que nadie logra explicar. ¿Qué haces?',
+ o:[
+ ['popper','Trato los fallos como posibles refutaciones: defino qué observaciones bastarían para declarar que la metodología ya no sirve y las registro.'],
+ ['kuhn','Cuando las anomalías se acumulan, el problema puede ser el marco completo. Exploro una forma de trabajo distinta, no solo parches.'],
+ ['lakatos','Protejo el núcleo de la metodología y ajusto lo periférico (plantillas, tiempos). Si esos ajustes dejan de dar resultados nuevos, la abandono.'],
+ ['bunge','Mido: fijo indicadores, recojo datos sistemáticos de cada fallo y pruebo causas una por una con método.'],
+ ['piaget','Incorporo los fallos como información nueva: ajusto el proceso a lo observado y reestructuro la manera de pensarlo.']]},
+{ctx:'Personal',t:'Circula en redes un «método infalible» para aprender inglés en 30 días, con muchos testimonios entusiastas. Un amigo te pide opinión. ¿Cómo decides si vale la pena?',
+ o:[
+ ['popper','Pregunto qué resultado probaría que el método no funciona. Si nada podría refutarlo, desconfío.'],
+ ['kuhn','Miro desde qué marco enseña idiomas y qué anomalías reales señala en los métodos dominantes, o si es solo ruido atractivo.'],
+ ['lakatos','Observo si quienes lo defienden corrigen sus explicaciones y anticipan cosas nuevas, o si solo inventan excusas cuando falla.'],
+ ['bunge','Busco estudios con grupo de comparación, muestra suficiente y revisión por pares. Distingo lo que es ciencia de lo que solo parece serlo.'],
+ ['piaget','Lo contrasto con lo que ya sé de cómo aprendo, lo pruebo unos días y modifico mi idea según lo que viva.']]},
+{ctx:'Personal',t:'Siempre creíste que «no eres bueno para los números». Este semestre te va bien en un curso exigente y varias personas te lo hacen notar. ¿Qué haces con esa creencia?',
+ o:[
+ ['popper','Me pregunto qué resultado probaría que mi creencia es falsa y me expongo a más pruebas para ponerla a prueba de verdad.'],
+ ['kuhn','Reconozco que las experiencias que no encajan se acumularon y que mi forma de verme cambió de fondo, no por una nota aislada.'],
+ ['lakatos','Sostengo la idea central y la explico con excepciones («fue fácil», «tuve suerte») hasta que esas excepciones dejen de ser creíbles.'],
+ ['bunge','Reúno evidencia ordenada (notas, ejercicios, retroalimentación) y la evalúo con criterios claros antes de concluir.'],
+ ['piaget','Acomodo: amplío mi idea de mí mismo para que incluya lo nuevo, en lugar de descartarlo.']]}
+];
+var F={
+popper:{n:'Karl Popper',bio:'Filósofo austriaco-británico (Viena, 1902 – Londres, 1994).',obra:'La lógica de la investigación científica (1934; en inglés, 1959)',
+ idea:'Una teoría es científica si puede ser refutada por la experiencia. La ciencia avanza conjeturando y sometiendo esas conjeturas a intentos serios de refutación; lo que resiste no queda «probado», queda corroborado por ahora.',
+ conc:'Falsacionismo · conjeturas y refutaciones · criterio de demarcación · corroboración.',
+ org:'Antes de aceptar que un indicador «demuestra» algo, preguntar qué dato habría que ver para descartar la afirmación. Si ninguno, no es una hipótesis contrastable.',
+ lim:'Una refutación rara vez es tan limpia: al fallar una predicción no siempre queda claro si falla la teoría o una hipótesis auxiliar. Esa objeción alimenta a Lakatos.',
+ ia:'¿Qué respuesta de la IA sería falsa y cómo lo comprobaría?'},
+kuhn:{n:'Thomas S. Kuhn',bio:'Historiador y filósofo de la ciencia estadounidense (Cincinnati, 1922 – Cambridge, Massachusetts, 1996).',obra:'La estructura de las revoluciones científicas (1962)',
+ idea:'La ciencia normal trabaja dentro de un paradigma que define problemas y métodos válidos. Las anomalías se acumulan hasta producir una crisis; entonces un paradigma alternativo puede desplazar al anterior (revolución científica).',
+ conc:'Paradigma · ciencia normal · anomalía · crisis · revolución · inconmensurabilidad.',
+ org:'Una organización que mide todo con el mismo marco puede no ver lo que ese marco no puede ver. Cuando los «casos raros» se acumulan, quizá hay que cambiar el marco, no el reporte. Ojo: no toda innovación tecnológica es una revolución científica; esto es una analogía pedagógica.',
+ lim:'Se le critica que la elección entre paradigmas parezca depender más de la comunidad que de razones, con riesgo de relativismo. Kuhn matizó esa lectura en escritos posteriores.',
+ ia:'¿La IA generativa es un cambio dentro del paradigma o el inicio de otro?'},
+lakatos:{n:'Imre Lakatos',bio:'Filósofo de la ciencia húngaro-británico (Debrecen, 1922 – Londres, 1974).',obra:'La metodología de los programas de investigación científica (1978)',
+ idea:'Las teorías se evalúan como programas de investigación: un núcleo duro que no se toca y un cinturón protector de hipótesis auxiliares que sí se ajustan. El programa es progresivo si anticipa hechos nuevos y degenerativo si solo parchea para sobrevivir. Dialoga críticamente con Popper.',
+ conc:'Programa de investigación · núcleo duro · cinturón protector · heurística · progresivo vs. degenerativo.',
+ org:'Una estrategia o metodología se defiende ajustando lo periférico. La pregunta honesta es si esos ajustes todavía generan resultados nuevos o solo explican por qué falló (analogía pedagógica, no formulación literal del autor).',
+ lim:'Saber cuándo un programa pasó a ser degenerativo suele ser claro solo en retrospectiva; en tiempo real la decisión sigue siendo un juicio.',
+ ia:'¿El programa de «la IA como fuente de conocimiento» predice cosas nuevas o parchea sus fallos?'},
+bunge:{n:'Mario Bunge',bio:'Filósofo de la ciencia y físico argentino (Buenos Aires, 1919 – Montreal, 2020).',obra:'La ciencia, su método y su filosofía (1960; ed. consultada: 2014)',
+ idea:'La ciencia fáctica busca conocimiento racional, sistemático, verificable y falible, construido con método. Se distingue de la pseudociencia por la contrastación empírica, la coherencia lógica y la apertura a la corrección. No es una receta mecánica de pasos.',
+ conc:'Ciencia fáctica · método científico · contrastación · racionalidad · sistematicidad · falibilidad.',
+ org:'Exigir definición previa de indicadores, grupo de comparación y trazabilidad de la fuente antes de dar por válida una afirmación en un informe, incluido uno generado con IA.',
+ lim:'El estándar puede resultar muy exigente en contextos sociales y organizacionales, donde no siempre es posible controlar las variables como en un laboratorio.',
+ ia:'¿Puede otra persona repetir el procedimiento y obtener la misma conclusión con esta salida de la IA?'},
+piaget:{n:'Jean Piaget',bio:'Psicólogo y epistemólogo suizo (Neuchâtel, 1896 – Ginebra, 1980).',obra:'Introducción a la epistemología genética (1950)',
+ idea:'El conocimiento se construye en la interacción entre sujeto y objeto. Asimilamos lo nuevo a nuestros esquemas y, cuando no encaja, acomodamos los esquemas; el equilibrio entre ambos procesos (equilibración) explica cómo se desarrolla el conocimiento.',
+ conc:'Epistemología genética · esquema · asimilación · acomodación · equilibración · relación sujeto–objeto.',
+ org:'Un equipo que integra un dato nuevo a su modelo (asimila) o que reestructura su modelo porque ya no alcanza (acomoda). Ambas son necesarias; el riesgo es asimilar siempre. Es una analogía: la teoría de Piaget trata del desarrollo individual.',
+ lim:'Su obra parte del desarrollo del individuo; trasladarla al conocimiento científico o colectivo exige cuidado y no es literal.',
+ ia:'¿Cómo cambia nuestro modo de saber al interactuar con una IA que responde?'}
+};
+var CONF=['Nada seguro','Poco','Más o menos','Bastante','Muy seguro'];
+var st={name:'',view:'intro',cur:0,ans:[],conf:[],why:[],orders:[],pl:'',plt:''};
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function $(id){return document.getElementById(id)}
+function start(){st={name:st.name||'',view:'intro',cur:0,ans:[],conf:[],why:[],orders:S.map(function(s){return shuf(s.o)}),pl:'',plt:''};render()}
+function stepper(n){
+ var L=['Entender','Decidir','Descubrir','Llevar y descargar'],h='<div class="steps" aria-label="Pasos del laboratorio">';
+ L.forEach(function(x,i){h+='<div class="stp'+(i===n?' on':(i<n?' done':''))+'"><i>'+(i<n?'✓':i+1)+'</i>'+x+'</div>'});
+ return h+'</div>';
+}
+function render(){
+ if(st.view==='intro')renderIntro();else if(st.view==='q')renderQ();else renderResult();
+}
+function renderIntro(){
+ var h=stepper(0);
+ h+='<div class="card"><h2>¿Para qué es este laboratorio?</h2>'
+ +'<p>Para que descubras, con tus propias decisiones, <b>qué criterio usas cuando tienes que decidir si algo es válido</b>, y le pongas nombre con ayuda de cinco corrientes epistemológicas del siglo XX: <b style="color:var(--popper)">Popper</b>, <b style="color:var(--kuhn)">Kuhn</b>, <b style="color:var(--lakatos)">Lakatos</b>, <b style="color:var(--bunge)">Bunge</b> y <b style="color:var(--piaget)">Piaget</b>.</p>'
+ +'<div class="note gold"><b>¿Qué es un «criterio de validación»?</b> Es lo que haces, casi sin pensarlo, para decidir si crees una afirmación: pedir la fuente, buscar qué la contradiga, compararla con tu experiencia, esperar a ver más casos… La epistemología estudia justamente esos criterios.</div></div>';
+ h+='<div class="card"><h2>Cómo funciona (12 a 15 minutos)</h2><div class="grid">'
+ +'<div class="mini"><b class="n">1</b><strong>Lee la situación</strong><span>Son cinco: tres de organizaciones y dos de la vida personal. Imagina que te pasan a ti.</span></div>'
+ +'<div class="mini"><b class="n">2</b><strong>Elige una opción</strong><span>La que más se parece a lo que <b>realmente harías</b>, no la que suena más académica. No hay respuestas correctas.</span></div>'
+ +'<div class="mini"><b class="n">3</b><strong>Anota tu seguridad y tu razón</strong><span>Dos toques y una frase opcional. Es la parte que más te servirá después.</span></div>'
+ +'<div class="mini"><b class="n">4</b><strong>Descubre y descarga</strong><span>Verás tu «espejo»: con qué corriente se parece tu criterio. Podrás descargarlo para llevarlo a la clase.</span></div>'
+ +'</div></div>';
+ h+='<div class="card"><h2>Qué te llevas al final</h2><div class="grid">'
+ +'<div class="mini"><strong>Un espejo de tus criterios</strong><span>Un gráfico con las cinco corrientes y qué decisión te acercó a cada una.</span></div>'
+ +'<div class="mini"><strong>Las cinco preguntas</strong><span>Cada corriente te deja una pregunta que puedes hacerle a cualquier informe, dato o respuesta de IA.</span></div>'
+ +'<div class="mini"><strong>Tu pregunta para llevar</strong><span>Una frase propia: a qué afirmación de tu organización le harías esa pregunta.</span></div>'
+ +'</div><div class="note"><b>No es un test psicológico ni se califica.</b> Es un espejo didáctico para conversar. Nada se guarda ni se envía: solo se descarga si tú lo decides.</div>'
+ +'<div><label class="l" for="nm">Tu nombre (opcional; solo aparecerá en el archivo que descargues)</label><input type="text" id="nm" maxlength="60" value="'+esc(st.name)+'" oninput="st.name=this.value" placeholder="Ej.: Ana Pérez"></div>'
+ +'<div class="row"><button class="btn" onclick="st.view=\'q\';render()">Comenzar el laboratorio</button><button class="btn ghost" onclick="show(\'fic\')">Prefiero ver primero las fichas</button></div></div>';
+ $('lab').innerHTML=h;
+}
+function renderQ(){
+ var i=st.cur,s=S[i],o=st.orders[i],pct=Math.round(i/S.length*100),ans=st.ans[i];
+ var h=stepper(1)+'<div class="progress" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+pct+'%"></i></div>';
+ h+='<div class="card"><span class="tag">Situación '+(i+1)+' de '+S.length+' · '+s.ctx+'</span><p class="scenario">'+esc(s.t)+'</p>'
+ +'<h3>Elige UNA opción: la que más se parece a lo que harías tú</h3><div class="opts">';
+ for(var j=0;j<o.length;j++){h+='<button class="opt" aria-pressed="'+(ans===o[j][0])+'" onclick="pick(\''+o[j][0]+'\')"><b>'+String.fromCharCode(65+j)+'</b><span>'+esc(o[j][1])+'</span></button>'}
+ h+='</div>';
+ if(ans){
+  h+='<div class="pause"><h3>Pausa reflexiva (opcional, pero útil)</h3><div><label class="l">¿Qué tan seguro estás de esa decisión?</label><div class="pills">';
+  CONF.forEach(function(c,k){h+='<button class="pill" aria-pressed="'+(st.conf[i]===k+1)+'" onclick="setConf('+(k+1)+')">'+(k+1)+' · '+c+'</button>'});
+  h+='</div></div><div><label class="l" for="why">En una frase: ¿por qué elegiste eso?</label><textarea id="why" rows="2" maxlength="300" oninput="st.why['+i+']=this.value" placeholder="Ej.: Porque en mi trabajo nunca confiamos en un solo indicador…">'+esc(st.why[i]||'')+'</textarea></div></div>';
+ }
+ h+='<div class="row"><button class="btn ghost" onclick="back()"'+(i===0?' disabled':'')+'>Anterior</button><button class="btn" onclick="next()"'+(ans?'':' disabled')+'>'+(i===S.length-1?'Descubrir mi espejo':'Siguiente')+'</button>'+(ans?'':'<span class="sub">Elige una opción para continuar.</span>')+'</div></div>';
+ $('lab').innerHTML=h;
+}
+function pick(k){st.ans[st.cur]=k;renderQ()}
+function setConf(v){st.conf[st.cur]=v;renderQ()}
+function back(){if(st.cur>0){st.cur--;renderQ()}}
+function next(){if(!st.ans[st.cur])return;if(st.cur<S.length-1){st.cur++;renderQ();window.scrollTo(0,0)}else{st.view='r';render();window.scrollTo(0,0)}}
+
+function scores(){var sc={popper:0,kuhn:0,lakatos:0,bunge:0,piaget:0};st.ans.forEach(function(a){sc[a]++});return sc}
+function tops(sc,arr){var m=0;arr.forEach(function(k){if(sc[k]>m)m=sc[k]});return arr.filter(function(k){return sc[k]===m})}
+function radar(sc){
+ var cx=150,cy=150,R=95,n=5,pts=[],g='';
+ function P(i,r){var a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
+ for(var l=1;l<=5;l++){var p=[];for(var i=0;i<n;i++)p.push(P(i,R*l/5).map(function(v){return v.toFixed(1)}).join(','));g+='<polygon points="'+p.join(' ')+'" fill="none" stroke="#2B4A94" stroke-width="1"/>'}
+ for(var i=0;i<n;i++){var e=P(i,R);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0].toFixed(1)+'" y2="'+e[1].toFixed(1)+'" stroke="#2B4A94"/>'}
+ var poly=KEYS.map(function(k,i){return P(i,R*Math.max(sc[k],0.001)/5).map(function(v){return v.toFixed(1)}).join(',')}).join(' ');
+ g+='<polygon points="'+poly+'" fill="#D9B56B" fill-opacity=".28" stroke="#D9B56B" stroke-width="2.5"/>';
+ KEYS.forEach(function(k,i){var p=P(i,R*sc[k]/5),q=P(i,R+24);g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="5" fill="'+HEX[k]+'" stroke="#07163A" stroke-width="1.5"/><text x="'+q[0].toFixed(1)+'" y="'+(q[1]+4).toFixed(1)+'" text-anchor="middle" font-size="14" font-weight="700" fill="'+HEX[k]+'" font-family="Public Sans,Arial,sans-serif">'+C[k].n+'</text>'});
+ return '<svg viewBox="0 0 300 300" role="img" aria-label="Radar de cinco corrientes: '+KEYS.map(function(k){return C[k].n+' '+sc[k]}).join(', ')+'"><rect width="300" height="300" fill="none"/>'+g+'</svg>';
+}
+function barsHtml(sc){
+ var ks=KEYS.slice().sort(function(a,b){return sc[b]-sc[a]}),h='<div class="bars">';
+ ks.forEach(function(k){h+='<div class="bar"><span class="l" style="color:'+HEX[k]+'">'+C[k].n+'</span><span class="t"><i style="width:'+(sc[k]/S.length*100)+'%;background:'+HEX[k]+'"></i></span><span class="n">'+sc[k]+'/5</span></div>'});
+ return h+'</div>';
+}
+function titleOf(sc){
+ var top=tops(sc,KEYS),nm=top.map(function(k){return C[k].n});
+ var t=top.length===5?'Un criterio distinto en cada situación':(top.length>1?'Criterios compartidos: '+nm.join(' y '):'Tu criterio se parece más a '+nm[0]);
+ return {top:top,title:t};
+}
+function contexts(){
+ var org=[0,1,2],per=[3,4],a={popper:0,kuhn:0,lakatos:0,bunge:0,piaget:0},b={popper:0,kuhn:0,lakatos:0,bunge:0,piaget:0};
+ org.forEach(function(i){a[st.ans[i]]++});per.forEach(function(i){b[st.ans[i]]++});
+ var ta=tops(a,KEYS).map(function(k){return C[k].n}),tb=tops(b,KEYS).map(function(k){return C[k].n});
+ var same=ta.length===1&&tb.length===1&&ta[0]===tb[0];
+ return {ta:ta,tb:tb,txt:'En las situaciones organizacionales predominó '+ta.join(' / ')+' y en las personales '+tb.join(' / ')+'. '+(same?'Tu criterio fue estable entre ambos contextos.':'Tu criterio cambió con el contexto: eso es normal, y es justo lo que vale la pena conversar.')};
+}
+function reviewHtml(forReport){
+ var h='';
+ S.forEach(function(s,i){
+  var k=st.ans[i],mine=s.o.filter(function(x){return x[0]===k})[0][1];
+  var meta=(st.conf[i]?'Seguridad: '+st.conf[i]+'/5 ('+CONF[st.conf[i]-1]+')':'Seguridad: sin indicar');
+  var alts=KEYS.map(function(kk){var t=s.o.filter(function(x){return x[0]===kk})[0][1];return '<div class="alt'+(kk===k?' me':'')+'"><span class="chip" style="color:'+HEX[kk]+'">'+C[kk].n+'</span><span>'+esc(t)+(kk===k?' <b>(tu elección)</b>':'')+'</span></div>'}).join('');
+  var inner='<div class="in"><p><b>Tu elección:</b> '+esc(mine)+'</p><p class="sub">'+meta+'</p>'+(st.why[i]?'<p><b>Tu razón:</b> «'+esc(st.why[i])+'»</p>':'')+'<h3>Qué habría hecho cada lente</h3>'+alts+'</div>';
+  var sum='<span class="tag">Situación '+(i+1)+' · '+s.ctx+'</span><span class="chip" style="color:'+HEX[k]+'">'+C[k].n+'</span><span class="sub">'+esc(s.t.split('.')[0])+'.</span>';
+  h+=forReport?'<div class="rvb"><div class="sum">'+sum+'</div>'+inner+'</div>':'<details class="rv"><summary>'+sum+'</summary>'+inner+'</details>';
+ });
+ return h;
+}
+function renderResult(){
+ var sc=scores(),T=titleOf(sc),cx=contexts();
+ if(!st.pl)st.pl=T.top[0];
+ var h=stepper(2);
+ h+='<div class="hero"><span class="tag">Tu espejo didáctico'+(st.name?' · '+esc(st.name):'')+'</span><div class="big">'+esc(T.title)+'</div>';
+ if(T.top.length<5)h+='<p>'+T.top.map(function(k){return '<b style="color:'+HEX[k]+'">'+C[k].n+'</b>: «'+C[k].larga+'»'}).join('<br>')+'</p>';
+ else h+='<p>Cada situación te llevó a una corriente diferente. Eso también es información: tu criterio cambia con el contexto.</p>';
+ h+='</div>';
+ h+='<div class="card"><h2>Tu espejo en una mirada</h2><div class="two"><div>'+radar(sc)+'</div><div>'+barsHtml(sc)+'</div></div></div>';
+ h+='<div class="card"><h2>Cómo leer este espejo</h2><div class="grid">'
+ +'<div class="mini"><strong>Qué significa un número</strong><span>Cuántas de tus cinco decisiones se parecen al criterio de esa corriente.</span></div>'
+ +'<div class="mini"><strong>Qué no significa</strong><span>No dice quién eres ni cuál corriente es «la correcta». Con solo cinco decisiones, es una muestra pequeña.</span></div>'
+ +'<div class="mini"><strong>Por qué sirve</strong><span>Muestra qué pregunta haces por costumbre y cuáles casi nunca haces. Las cinco son lentes complementarias.</span></div></div>'
+ +'<div class="note gold"><b>Contextos.</b> '+esc(cx.txt)+'</div></div>';
+ h+='<div class="card"><h2>Tus decisiones, una por una</h2><p class="sub">Abre cada situación para ver qué habría hecho cada lente. Esa comparación es el corazón del aprendizaje.</p>'+reviewHtml(false)+'</div>';
+ h+='<div class="card"><span class="tag">Paso 4 · Llevar y descargar</span><h2>Tu pregunta para llevar a la organización</h2><p>Elige la lente que quieres practicar y escribe a qué afirmación de tu organización (informe, indicador, respuesta de una IA) se la harías.</p><div class="radios" role="radiogroup" aria-label="Lente elegida">';
+ KEYS.forEach(function(k){h+='<label style="border-color:'+(k===st.pl?HEX[k]:'')+'"><input type="radio" name="pl" value="'+k+'"'+(k===st.pl?' checked':'')+' onchange="st.pl=this.value;[].forEach.call(document.querySelectorAll(\'.radios label\'),function(l){l.style.borderColor=l.querySelector(\'input\').checked?HEX[l.querySelector(\'input\').value]:\'\'})"><span><b style="color:'+HEX[k]+'">'+C[k].n+'</b><br>'+esc(C[k].pregunta)+'</span></label>'});
+ h+='</div><div><label class="l" for="plt">Mi afirmación y mi pregunta</label><textarea id="plt" rows="3" maxlength="400" oninput="st.plt=this.value" placeholder="Ej.: «El informe del proveedor dice que la IA reduce 30 % los errores». Le haría la pregunta de Popper: ¿qué dato mostraría que no es cierto?">'+esc(st.plt)+'</textarea></div>'
+ +'<div class="note"><b>Descarga tu espejo.</b> Se genera un archivo <b>.html</b> con el mismo diseño que ves aquí (gráfico, decisiones, razones y tu pregunta). Ábrelo en cualquier navegador; puedes compartirlo en la sesión o guardarlo en tu portafolio. Se crea en tu navegador: nada se envía.</div>'
+ +'<div class="row"><button class="btn" onclick="dl()">Descargar mi espejo (.html)</button><button class="btn cyan" onclick="cp()">Copiar resumen en texto</button><button class="btn ghost" onclick="show(\'fic\')">Ver las fichas</button><button class="btn ghost" onclick="start()">Reiniciar</button></div><p class="status" id="stt" role="status"></p></div>';
+ $('lab').innerHTML=h;
+}
+function summaryText(){
+ var sc=scores(),T=titleOf(sc),L=[];
+ L.push('MI ESPEJO DE CRITERIOS · TEI02304 · UJAP'+(st.name?' · '+st.name:''));
+ L.push(T.title);
+ L.push(KEYS.map(function(k){return C[k].n+' '+sc[k]+'/5'}).join(' · '));
+ S.forEach(function(s,i){L.push((i+1)+'. ['+s.ctx+'] '+C[st.ans[i]].n+(st.why[i]?' — '+st.why[i]:''))});
+ if(st.plt)L.push('Mi pregunta ('+C[st.pl].n+'): '+st.plt);
+ return L.join('\n');
+}
+function msg(t){var e=$('stt');if(e)e.textContent=t}
+function cp(){
+ var t=summaryText();
+ try{navigator.clipboard.writeText(t).then(function(){msg('Resumen copiado. Pégalo en el chat de la sesión o en tus notas.')},function(){fallbackCopy(t)})}catch(e){fallbackCopy(t)}
+}
+function fallbackCopy(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);msg(ok?'Resumen copiado.':'No se pudo copiar automáticamente; descarga el archivo.')}
+var REPCSS="*{box-sizing:border-box}body{margin:0;background:#07163A;color:#F4F7FF;font:16px/1.55 'Public Sans',system-ui,Arial,sans-serif;padding:24px 16px 48px}.w{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}h1,h2{font-family:'Cinzel',Georgia,serif;margin:0}h1{font-size:34px;line-height:1.15}h1 span{color:#D9B56B}h2{font-size:22px}h3{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#D9B56B;margin:0}p{margin:0}.eb{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#D9B56B;font-weight:600}.hd{border-bottom:1px solid #2B4A94;padding-bottom:16px;position:relative;display:flex;flex-direction:column;gap:6px}.hd:after{content:'';position:absolute;left:0;bottom:-1px;width:30%;height:3px;background:linear-gradient(90deg,#D9303E,#D9B56B)}.c{background:#0F2762;border:1px solid #2B4A94;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}.hero{border:2px solid #D9B56B;border-radius:14px;padding:18px;background:rgba(217,181,107,.12);display:flex;flex-direction:column;gap:8px}.big{font-family:'Cinzel',Georgia,serif;font-size:28px;font-weight:700}.tag{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(217,181,107,.18);color:#F0D79A;width:fit-content}.sub{color:#AEBEE3}.two{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:center}svg{width:100%;max-width:300px;height:auto}.bars{display:flex;flex-direction:column;gap:12px}.bar{display:grid;grid-template-columns:90px 1fr 36px;gap:10px;align-items:center}.t{height:14px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}.t i{display:block;height:100%;border-radius:99px}.chip{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:99px;border:1.5px solid currentColor;white-space:nowrap}.rvb{border-top:1px solid #2B4A94;padding-top:12px;display:flex;flex-direction:column;gap:8px}.sum{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.in{display:flex;flex-direction:column;gap:8px}.alt{display:flex;gap:10px;font-size:14.5px;padding:7px 9px;border-radius:8px;background:rgba(255,255,255,.05)}.alt.me{background:rgba(217,181,107,.16);outline:1px solid #D9B56B}.alt .chip{flex:none;height:fit-content}.note{background:rgba(92,203,255,.09);border-left:4px solid #5CCBFF;border-radius:8px;padding:12px 14px;font-size:14.5px}.q{border-left:5px solid #D9B56B;padding-left:12px}@media(max-width:640px){.two{grid-template-columns:1fr}}@media print{body{background:#07163A;-webkit-print-color-adjust:exact;print-color-adjust:exact}}";
+function buildReport(){
+ var sc=scores(),T=titleOf(sc),cx=contexts(),d=new Date().toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+ var body='<div class="w"><div class="hd"><p class="eb">Teoría y Epistemología de la Información · UJAP · Sesión 5 · Unidad II</p><h1>Mi espejo de <span>criterios</span></h1><p class="sub">'+(st.name?esc(st.name)+' · ':'')+d+' · Espejo didáctico, no un test psicológico. Sin calificación.</p></div>'
+ +'<div class="hero"><span class="tag">Tu espejo didáctico</span><div class="big">'+esc(T.title)+'</div>'+(T.top.length<5?'<p>'+T.top.map(function(k){return '<b style="color:'+HEX[k]+'">'+C[k].n+'</b>: «'+C[k].larga+'»'}).join('<br>')+'</p>':'<p>Cada situación te llevó a una corriente diferente: tu criterio cambia con el contexto.</p>')+'</div>'
+ +'<div class="c"><h2>Tu espejo en una mirada</h2><div class="two"><div>'+radar(sc)+'</div><div>'+barsHtml(sc)+'</div></div><div class="note"><b>Contextos.</b> '+esc(cx.txt)+'</div></div>'
+ +'<div class="c"><h2>Mis decisiones y razones</h2>'+reviewHtml(true)+'</div>'
+ +'<div class="c"><h2>Mi pregunta para llevar a la organización</h2>'+(st.plt?'<p class="q"><b style="color:'+HEX[st.pl]+'">'+C[st.pl].n+'</b> — «'+C[st.pl].larga+'»</p><p>'+esc(st.plt)+'</p>':'<p class="sub">Sin completar.</p>')+'</div>'
+ +'<div class="note">Generado en el Laboratorio de criterios. Las cinco corrientes son lentes complementarias: Popper (falsabilidad), Kuhn (paradigmas), Lakatos (programas de investigación), Bunge (ciencia fáctica y método) y Piaget (epistemología genética). Con solo cinco decisiones, el resultado es una muestra pequeña para conversar, no un diagnóstico.</div></div>';
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mi espejo de criterios · TEI02304</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500..700&family=Public+Sans:wght@400;600;700&display=swap"><style>'+REPCSS+'</style></head><body>'+body+'</body></html>';
+}
+function dl(){
+ var html=buildReport(),nm=(st.name||'estudiante').trim().replace(/[^A-Za-z0-9ÁÉÍÓÚÜÑáéíóúüñ]+/g,'_').slice(0,40)||'estudiante';
+ msg('Preparando tu archivo…');
+ if(!window.claude||!window.claude.use){msg('La descarga no está disponible aquí. Usa «Copiar resumen en texto».');return}
+ window.claude.use('downloads').then(function(d){
+  if(!d){msg('La descarga no está disponible en esta vista. Usa «Copiar resumen en texto».');return}
+  d.save({filename:'Mi_espejo_de_criterios_'+nm+'.html',data:html}).then(function(){msg('Listo: tu espejo se guardó. Ábrelo en tu navegador.')},function(e){msg(e&&e.code==='declined'?'Descarga cancelada. Puedes intentarlo de nuevo cuando quieras.':'No se pudo descargar aquí. Usa «Copiar resumen en texto».')})
+ },function(){msg('No se pudo descargar aquí. Usa «Copiar resumen en texto».')});
+}
+var sel='popper';
+function renderFic(){
+ var h='<div class="fgrid">';
+ KEYS.forEach(function(k){h+='<button class="pick" style="border-top-color:'+HEX[k]+'" aria-selected="'+(k===sel)+'" onclick="selF(\''+k+'\')"><b style="color:'+HEX[k]+'">'+F[k].n+'</b><small>'+esc(C[k].pregunta)+'</small></button>'});
+ h+='</div>';
+ var f=F[sel];
+ h+='<div class="card ficha" style="--c:'+HEX[sel]+'"><div><span class="tag">Ficha</span></div><h2>'+f.n+'</h2><p class="sub">'+esc(f.bio)+'</p><p class="q">'+esc(C[sel].larga)+'</p><dl>'
+ +'<div><dt>Obra de referencia</dt><dd>'+esc(f.obra)+'</dd></div>'
+ +'<div><dt>Idea central</dt><dd>'+esc(f.idea)+'</dd></div>'
+ +'<div><dt>Conceptos clave</dt><dd>'+esc(f.conc)+'</dd></div>'
+ +'<div><dt>En una organización</dt><dd>'+esc(f.org)+'</dd></div>'
+ +'<div><dt>Límite o discusión</dt><dd>'+esc(f.lim)+'</dd></div>'
+ +'<div><dt>Pregunta para la IA generativa</dt><dd>'+esc(f.ia)+'</dd></div>'
+ +'</dl></div>';
+ $('fic').innerHTML=h;
+}
+function selF(k){sel=k;renderFic()}
+function show(w){
+ var lab=w==='lab';
+ $('lab').hidden=!lab;$('fic').hidden=lab;
+ $('t-lab').setAttribute('aria-selected',lab);$('t-fic').setAttribute('aria-selected',!lab);
+ if(!lab)renderFic();
+ window.scrollTo(0,0);
+}
+start();
+</script>
+
+</body></html>
