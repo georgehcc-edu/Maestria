@@ -1,0 +1,146 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Guía de Expertos con IA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: cabecera institucional, pestañas por lectura, tarjetas de prompt con botón copiar, cierre en Padlet */
+:root{--bg:#F4EFE4;--surface:#FBF8F0;--line:#D9CDB0;--fg:#2A3558;--navy:#0B1F5C;--red:#C8202F;--gold:#7A5A12;--on-navy:#F4EFE4;--code:#EDE6D3;--ok:#1E6B3A;
+--display:'Cinzel',Georgia,serif;--body:'Public Sans',Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1334;--surface:#112050;--line:#2B4A94;--fg:#DCE5FA;--navy:#D9B56B;--red:#FF6B78;--gold:#D9B56B;--on-navy:#F4EFE4;--code:#0A1334;--ok:#6FD39A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1334;--surface:#112050;--line:#2B4A94;--fg:#DCE5FA;--navy:#D9B56B;--red:#FF6B78;--gold:#D9B56B;--on-navy:#F4EFE4;--code:#0A1334;--ok:#6FD39A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{padding-top:28px;border-top:5px solid var(--red);display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,36px);line-height:1.15;margin:0;color:var(--navy);text-wrap:balance}
+h2{font-family:var(--display);font-size:21px;margin:0;color:var(--navy);text-wrap:balance}
+h3{font-size:15px;margin:0}
+p{margin:0}
+.lead{max-width:65ch}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.step b{font-variant-numeric:tabular-nums;color:var(--red)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-weight:700;font-size:14px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-align:left}
+.tab[aria-selected="true"]{background:var(--navy);color:var(--bg);border-color:var(--navy)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.final{border-left:5px solid var(--red)}
+a{color:var(--navy);font-weight:600}
+.tool{display:flex;flex-direction:column;gap:8px}
+.toolhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.tag{font-size:12px;color:var(--gold);font-weight:700}
+pre{margin:0;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-word;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--fg);max-height:240px;overflow:auto}
+.copy{align-self:flex-start;font:inherit;font-weight:700;font-size:14px;padding:8px 14px;border-radius:8px;border:0;background:var(--red);color:#fff;cursor:pointer}
+.copy.done{background:var(--ok)}
+.checks{display:flex;flex-direction:column;gap:8px}
+.checks label{display:flex;gap:10px;align-items:flex-start}
+.checks input{margin-top:5px;width:18px;height:18px;flex:none}
+.cta{display:inline-block;align-self:flex-start;background:var(--navy);color:var(--bg);padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
+.muted{font-size:14px;opacity:.85}
+footer{font-size:13px;opacity:.8;border-top:1px solid var(--line);padding-top:14px}
+</style>
+
+<div class="wrap">
+<header>
+<span class="eyebrow">TEI02304 · Unidad II · Sesión 7 · Experto → equipo mixto</span>
+<h1>Guía de Expertos con IA</h1>
+<p class="lead">Lee tu texto, interroga a las herramientas, contrasta con la fuente y publica la conclusión de tu equipo en el tablero. La IA propone; el equipo verifica y decide.</p>
+</header>
+
+<section class="steps" aria-label="Tiempos">
+<div class="step"><b>12 min</b><span>Lectura individual de tu ficha y apoyo con IA</span></div>
+<div class="step"><b>8 min</b><span>Equipo experto: acuerdan respuestas y conclusión</span></div>
+<div class="step"><b>6 min</b><span>Enseñas tu lectura al equipo mixto</span></div>
+<div class="step"><b>Cierre</b><span>Publican en el tablero de Padlet</span></div>
+</section>
+
+<section class="panel" aria-labelledby="lect">
+<h2 id="lect">1 · Elige tu lectura</h2>
+<div class="tabs" role="tablist" id="tabs"></div>
+<div id="panel" class="panel" role="tabpanel"></div>
+</section>
+
+<section class="card" aria-labelledby="ver">
+<h2 id="ver">2 · Verifica antes de concluir</h2>
+<div class="checks">
+<label><input type="checkbox"> Comprobé en el texto de la lectura cada afirmación que me dio la IA.</label>
+<label><input type="checkbox"> Abrí las fuentes que citó la IA y confirmé que existen y dicen eso.</label>
+<label><input type="checkbox"> Anoté al menos una cosa que la IA dijo mal, incompleta o sin respaldo.</label>
+<label><input type="checkbox"> Mi respuesta al ejemplo de vida diaria es mía, no de la herramienta.</label>
+</div>
+</section>
+
+<section class="card" aria-labelledby="conc">
+<h2 id="conc">3 · Plantilla de la conclusión del equipo</h2>
+<pre id="plantilla">Equipo: ___ · Lectura: ___
+Conclusión (3 frases):
+1) Idea central del texto:
+2) Qué implica para validar un saber:
+3) Quién queda fuera o sin voz:
+Pregunta abierta:
+Qué corrigió o rechazó de la IA:
+Herramientas usadas (Claude, Gemini, Perplexity, otras):</pre>
+<button class="copy" data-target="plantilla">Copiar plantilla</button>
+</section>
+
+<section class="card" aria-labelledby="pad">
+<h2 id="pad">4 · Publica en el tablero</h2>
+<p>Cuando el equipo termine, publica la conclusión en la sección de tu lectura. Cada publicación lleva conclusión, pregunta abierta, qué corrigió de la IA y herramientas usadas. El equipo mixto sube después su mapa en la última sección.</p>
+<a class="cta" id="padlet" href="https://padlet.com/gcardena5/tei02304-sesion-7-mapa-de-validacion-intersubjetiva-s024yxah0zwn8g5ys57b" target="_blank" rel="noopener">Abrir el tablero de Padlet</a>
+<p class="muted">Pregunta del mapa final: si el saber se revisa sin cesar, ¿quién participa, con qué criterios se acepta un saber como válido y quién queda excluido?</p>
+</section>
+
+<footer>Declara el uso de IA en tu publicación: herramienta, qué le pediste y qué cambiaste. Si compartes capturas de tus conversaciones, hazlo solo con tu consentimiento.</footer>
+</div>
+
+<script>
+var LECT=[
+{id:"kruger",tab:"Experto 1 · Krüger",titulo:"Krüger (2006). El concepto de sociedad del conocimiento",
+ ref:"https://www.ub.edu/geocrit/b3w-683.htm",refTxt:"Biblio 3W, 11(683), Universidad de Barcelona",
+ q:["¿En qué se diferencia la sociedad del conocimiento de la sociedad industrial y de la de la información?","¿Por qué el autor dice que más conocimiento puede producir más desconocimiento?","Un ejemplo de tu vida diaria donde el saber «se revisa» y otro donde alguien queda excluido."],
+ fin:"Si el saber se revisa sin cesar, ¿quién participa, con qué criterios se acepta un saber como válido y quién queda excluido?",
+ busca:"sociedad del conocimiento, desconocimiento, saber revisable, exclusión, Krüger"},
+{id:"unesco",tab:"Experto 2 · UNESCO",titulo:"UNESCO (2005). Hacia las sociedades del conocimiento",
+ ref:"https://unesdoc.unesco.org/ark:/48223/pf0000141908",refTxt:"Informe mundial de la UNESCO",
+ q:["¿Por qué el informe habla de sociedades del conocimiento en plural?","¿Qué diferencia hay entre brecha digital y brecha cognitiva, y por qué importa para validar saberes?","Un ejemplo de tu entorno donde tener acceso a la información no bastó para comprenderla o usarla."],
+ fin:"Cuando intervienen comunidades, culturas y usuarios, ¿quién valida un saber y qué pasa con quienes la brecha cognitiva deja sin voz?",
+ busca:"sociedades del conocimiento, brecha digital, brecha cognitiva, diversidad cultural, UNESCO"},
+{id:"garcia",tab:"Experto 3 · García Guadarrama",titulo:"García Guadarrama (2006). Hermenéutica y círculo hermenéutico (apartado I.B, Crítica o tradición)",
+ ref:"https://www.redalyc.org/pdf/281/28101001.pdf",refTxt:"Contribuciones desde Coatepec, (10), 11–21",
+ q:["¿Por qué para Gadamer el prejuicio hace posible la comprensión?","¿Qué riesgo ve Habermas en confiar en la tradición y el lenguaje compartido?","Un prejuicio de tu vida que te ayudó a entender algo y otro que te lo impidió."],
+ fin:"¿Basta la conversación honesta para validar un saber, o hace falta además una crítica que detecte el poder escondido?",
+ busca:"Gadamer, Habermas, prejuicio, tradición, crítica de la ideología, círculo hermenéutico"}
+];
+function lista(q){return q.map(function(x,i){return (i+1)+") "+x}).join("\n")}
+function prompts(L){
+ var P=[
+ {t:"Claude · tutor socrático",tag:"Para entender el texto",x:"Actúa como tutor socrático. Voy a trabajar la lectura «"+L.titulo+"». Te pego abajo el texto o mi resumen.\n\nNo me des las respuestas. Hazme UNA pregunta a la vez para ayudarme a responder estas preguntas orientadoras:\n"+lista(L.q)+"\n\nCuando yo responda, dime qué parte de mi respuesta está respaldada por el texto y cuál no. Si algo no está en el texto, dilo.\n\n[PEGA AQUÍ EL TEXTO O TU RESUMEN]"},
+ {t:"ChatGPT o Claude · abogado del diablo",tag:"Para poner a prueba tu respuesta",x:"Esta es mi respuesta a la pregunta final de la lectura «"+L.titulo+"»:\n\nPregunta: "+L.fin+"\nMi respuesta: [ESCRIBE AQUÍ TU RESPUESTA EN 3 FRASES]\n\nHaz de abogado del diablo: dame las 3 objeciones más fuertes, indica qué supuestos escondo y qué ejemplo real las pondría en aprietos. No reescribas mi respuesta."},
+ {t:"Perplexity · fuentes verificables",tag:"Para buscar y citar",x:"Necesito entender mejor este tema: "+L.busca+".\nBusca 4 fuentes académicas o institucionales (artículos arbitrados, informes de organismos, libros de editoriales universitarias) que ayuden a responder: "+L.fin+"\nPara cada una dame autor, año, título, enlace y una frase sobre qué aporta. No incluyas blogs ni resúmenes sin autor. Si no encuentras una fuente fiable, dilo."},
+ {t:"Gemini · contraste y ejemplos",tag:"Para comparar y ejemplificar",x:"Compara la postura de «"+L.titulo+"» con otra postura contraria o complementaria sobre cómo se valida un saber. Dame una tabla de 4 filas (quién decide, qué criterio, quién queda fuera, riesgo) y 2 ejemplos reales, uno de Latinoamérica. Marca con [VERIFICAR] cualquier dato que yo deba confirmar en una fuente."},
+ {t:"Cualquier IA · auditoría de la conclusión",tag:"Antes de publicar",x:"Revisa la conclusión de mi equipo contra esta pregunta: "+L.fin+"\n\nConclusión:\n[PEGA AQUÍ LAS 3 FRASES]\n\nDime: (a) qué afirmaciones necesitan respaldo en el texto, (b) qué voz o grupo falta, (c) si hay una pregunta abierta mejor. No la reescribas."}
+ ];return P}
+var tabs=document.getElementById("tabs"),panel=document.getElementById("panel");
+function copiar(txt,btn){
+ function ok(){var o=btn.textContent;btn.textContent="Copiado";btn.classList.add("done");setTimeout(function(){btn.textContent=o;btn.classList.remove("done")},1600)}
+ function fb(){var r=document.createRange();var pre=btn.previousElementSibling;if(pre&&pre.tagName==="PRE"){r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent="Selecciona y copia (Ctrl+C)"}}
+ try{navigator.clipboard.writeText(txt).then(ok,fb)}catch(e){fb()}}
+document.addEventListener("click",function(e){var b=e.target.closest(".copy");if(!b)return;var pre=document.getElementById(b.dataset.target)||b.previousElementSibling;copiar(pre.textContent,b)});
+function show(i){
+ var L=LECT[i];
+ Array.prototype.forEach.call(tabs.children,function(t,j){t.setAttribute("aria-selected",j===i?"true":"false")});
+ try{location.hash=L.id}catch(e){}
+ var h='<div class="card"><h3>'+L.titulo+'</h3><a href="'+L.ref+'" target="_blank" rel="noopener">'+L.refTxt+'</a><p class="muted">Preguntas orientadoras</p><ol>'+L.q.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ol></div>';
+ h+='<div class="card final"><h3>Pregunta final para tu mapa</h3><p>'+L.fin+'</p></div>';
+ h+='<h2>Prompts para copiar</h2>';
+ prompts(L).forEach(function(p,k){h+='<div class="card tool"><div class="toolhead"><h3>'+p.t+'</h3><span class="tag">'+p.tag+'</span></div><pre id="p'+k+'">'+p.x.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</pre><button class="copy" data-target="p'+k+'">Copiar prompt</button></div>'});
+ panel.innerHTML=h}
+LECT.forEach(function(L,i){var b=document.createElement("button");b.className="tab";b.setAttribute("role","tab");b.textContent=L.tab;b.onclick=function(){show(i)};tabs.appendChild(b)});
+var ini=0;LECT.forEach(function(L,i){if(location.hash==="#"+L.id)ini=i});show(ini);
+</script>
+
+</body></html>
